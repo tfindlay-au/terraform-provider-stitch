@@ -14,11 +14,11 @@ import (
 // The Destination object represents a destination. Destinations are the data warehouses into which Stitch writes data
 // The Destination Type object contains the information needed to configure a destination.
 var destinationSchema = map[string]*schema.Schema{
-	"id": {
+	"destination_id": {
 		Type:        schema.TypeInt,
 		Description: "A unique identifier for this destination.",
 		Computed:    true,
-		Required:    true,
+		Required:    false,
 	},
 	"name": {
 		Type:        schema.TypeString,
@@ -78,11 +78,13 @@ var destinationSchema = map[string]*schema.Schema{
 
 func destination() *schema.Resource {
 	return &schema.Resource{
+		Description:   "Destinations are the data warehouses into which Stitch writes data.",
 		CreateContext: destinationCreate,
-		DeleteContext: destinationDelete,
-		UpdateContext: destinationUpdate,
 		ReadContext:   destinationList,
+		UpdateContext: destinationUpdate,
+		DeleteContext: destinationDelete,
 		Schema:        destinationSchema,
+		SchemaVersion: 4,
 	}
 }
 
@@ -104,9 +106,6 @@ func destinationCreate(ctx context.Context, r *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
-	authString := fmt.Sprintf("Bearer %s", c.Token)
-	req.Header.Add("Authorization", authString)
-	req.Header.Add("Content-Type", "application/json")
 	response, err := c.doRequest(req)
 	if err != nil {
 		return diag.FromErr(err)

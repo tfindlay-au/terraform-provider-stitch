@@ -19,14 +19,18 @@ var jobSchema = map[string]*schema.Schema{
 		Type:     schema.TypeString,
 		Computed: false,
 		Required: true,
+		ForceNew: true,
 	},
 }
 
 func job() *schema.Resource {
 	return &schema.Resource{
+		Description:   "The three-step process by which Stitch replicates data. A replication job includes three distinct steps: Extraction, preparation, and loading.",
 		CreateContext: startJob,
+		ReadContext:   listJobs,
 		DeleteContext: stopJob,
 		Schema:        jobSchema,
+		SchemaVersion: 4,
 	}
 }
 
@@ -39,6 +43,13 @@ func startJob(ctx context.Context, r *schema.ResourceData, m interface{}) diag.D
 
 // Stop a job DELETE /v4/sources/{source_id}/sync
 func stopJob(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
+	var d diag.Diagnostics
+	// Do stuff in here...
+	return d
+}
+
+// List jobs ???
+func listJobs(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
 	// Do stuff in here...
 	return d

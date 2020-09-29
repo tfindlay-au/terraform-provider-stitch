@@ -6,16 +6,19 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-// Provider -
+// Parameters available for a provider definition
+var providerSchema = map[string]*schema.Schema{
+	"api_key": &schema.Schema{
+		Type:        schema.TypeString,
+		Optional:    true,
+		DefaultFunc: schema.EnvDefaultFunc("STITCH_APIKEY", nil),
+	},
+}
+
+// Define the provider here
 func Provider() *schema.Provider {
 	return &schema.Provider{
-		Schema: map[string]*schema.Schema{
-			"apiKey": &schema.Schema{
-				Type:        schema.TypeString,
-				Optional:    true,
-				DefaultFunc: schema.EnvDefaultFunc("STITCH_APIKEY", nil),
-			},
-		},
+		Schema: providerSchema,
 		ResourcesMap: map[string]*schema.Resource{
 			"stitch_destinations": destination(),
 			"stitch_source":       source(),
@@ -26,30 +29,30 @@ func Provider() *schema.Provider {
 	}
 }
 
-func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
-	apiKey := d.Get("apiKey").(string)
+func providerConfigure(ctx context.Context, rd *schema.ResourceData) (interface{}, diag.Diagnostics) {
+	apiKey := rd.Get("api_key").(string)
 
 	// Warning or errors can be collected in a slice type
-	var diags diag.Diagnostics
+	var d diag.Diagnostics
 
 	if apiKey != "" {
 		c, err := NewSession(nil, &apiKey)
 		if err != nil {
-			diags = append(diags, diag.Diagnostic{
+			d = append(d, diag.Diagnostic{
 				Severity: diag.Error,
 				Summary:  "Unable to create Stitch client",
-				Detail:   "Unable to get token for API key",
+				Detail:   err.Error(),
 			})
-			return nil, diags
+			return nil, d
 		}
 
-		return c, diags
+		return c, d
 	} else {
-		diags = append(diags, diag.Diagnostic{
+		d = append(d, diag.Diagnostic{
 			Severity: diag.Error,
-			Summary:  "Unable to create Stitch client",
-			Detail:   "Unable to find API Key",
+			Summary:  "Unable to find API Key",
+			Detail:   "Value:" + apiKey,
 		})
-		return nil, diags
+		return nil, d
 	}
 }

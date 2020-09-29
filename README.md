@@ -7,14 +7,29 @@ This code base provides link between Hashicorp's Terraform tools and the Stitch 
 Using the plugin with in your terraform scripts should look like:
 
 ```hcl-terraform
-provider "stitch" {
-  apiKey = "<My API Key>"
+terraform {
+  required_providers {
+    stitch = {
+      source  = "stitchdata.com/provider/stitch"
+      version = "~> 0.1.0"
+    }
+  }
 }
 
 
+provider "stitch" {
+  api_key = "<My API Key>"
+}
+
 resource "stitch_source" "source_database" {
-  name                        = "test_database"
-  display_name                = "Sample Source via Terraform"
+  display_name = "test_database"
+  type = "<sourceType>"
+  properties = {
+    host     = "myHost",
+    port     = 1234,
+    user     = "myUsername",
+    password = "myPassword"
+  }
 }
 
 resource "stitch_destinations" "target_database" {
@@ -31,13 +46,23 @@ resource "stitch_job" "transfer_job" {
 ```
 
 ### Building
-To build from source, run:
+To build from the source, run:
 ```shell
-go build -o terraform-provider-stitch
+go build -o terraform-provider-stitch_v0.1.0
+mv terraform-provider-stitch_v0.1.0 ~/.terraform.d/plugins/stitchdata.com/provider/stitch/0.1.0/darwin_amd64/terraform-provider-stitch_v0.1.0
+rm -Rf ~/.terraform.d/plugin-cache/stitchdata.com
 ```
 
 This will produce a binary file that can be placed in your terraform plugins folder. eg `~/.terraform.s/plugins/`
 
+### Testing
+```shell
+cd terraform
+rm -Rf .terraform
+terraform init
+terraform plan
+cd ..
+```
 ### Installing
 
 #### Manually

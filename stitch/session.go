@@ -2,6 +2,7 @@ package stitch
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -9,7 +10,8 @@ import (
 )
 
 // PURPOSE:
-// Use an API key to create a session with which to interact with the Stitch API
+// Use an API key to create a session with which to interact with the Stitch API.
+//
 // Example Token:
 // 		{
 // 			"ephemeral_token":"<EPHEMERAL_TOKEN>"
@@ -28,9 +30,8 @@ type ResponseStruct struct {
 }
 
 func NewSession(host, apiKey *string) (*Client, error) {
-	fmt.Println("Inside NewSession()...")
-
-	fmt.Println("Connecting to:", HostURL)
+	// Generates an ephemeral token to create a session in the Stitch web application.
+	// Ephemeral tokens expire after one hour.
 	c := Client{
 		HTTPClient: &http.Client{Timeout: 10 * time.Second},
 		HostURL:    HostURL,
@@ -43,27 +44,22 @@ func NewSession(host, apiKey *string) (*Client, error) {
 
 	if apiKey != nil {
 		// authenticate
-		req, err := http.NewRequest("POST", fmt.Sprintf("%s/v3/sessions/ephemeral", c.HostURL), nil)
+		url := fmt.Sprintf("%s/v3/sessions/ephemeral", c.HostURL)
+		req, err := http.NewRequest("POST", url, nil)
 		if err != nil {
-			return nil, err
+			return nil, errors.New("Unable to connect to:" + url + " result:" + err.Error())
 		}
 
 		c.Token = *apiKey
 
-		// Move this into the helper method
-		//authString := fmt.Sprintf("Bearer %s", c.Token)
-		//req.Header.Add("Authorization", authString)
-		//req.Header.Add("Content-Type", "application/json")
-
 		body, err := c.doRequest(req)
-
-		fmt.Println("Response:", body)
 
 		// parse response body
 		ar := ResponseStruct{}
 		err = json.Unmarshal(body, &ar)
 		if err != nil {
-			return nil, err
+			// Invalid credentials == Empty response -> unable to parse
+			return nil, errors.New("Unable to parse:" + string(body) + " result:" + err.Error())
 		}
 
 		c.Token = ar.Token
