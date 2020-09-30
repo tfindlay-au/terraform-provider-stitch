@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"net/http"
-	"time"
 )
 
 // PURPOSE:
 // The Source Type object contains the information needed to configure a data source.
 // An object representing a data source. Sources are the databases, APIs, and other data applications that
 // Stitch replicates data from. Sources can be retrieved in a list or individually by ID.
+// Schema Reference: https://www.stitchdata.com/docs/developers/stitch-connect/api#source--object
 var sourceSchema = map[string]*schema.Schema{
 	"source_id": {
 		Type:        schema.TypeInt,
@@ -29,13 +29,13 @@ var sourceSchema = map[string]*schema.Schema{
 		Required:    true,
 	},
 	"created_at": {
-		Type:        schema.TypeInt,
+		Type:        schema.TypeString,
 		Description: "The time at which the source object was created.",
 		Computed:    true,
 		Required:    false,
 	},
 	"updated_at": {
-		Type:        schema.TypeInt,
+		Type:        schema.TypeString,
 		Description: "The time at which the object was last updated.",
 		Computed:    true,
 		Required:    false,
@@ -71,7 +71,7 @@ var sourceSchema = map[string]*schema.Schema{
 		Required:    true,
 	},
 	"system_paused_at": {
-		Type:        schema.TypeInt,
+		Type:        schema.TypeString,
 		Description: "If the connection was paused by the system, the time the pause began. Otherwise, or if the connection is active, this will be null.",
 		Computed:    true,
 		Required:    false,
@@ -95,7 +95,7 @@ var sourceSchema = map[string]*schema.Schema{
 		Required:    true,
 	},
 	"report_card": {
-		Type:        schema.TypeString,
+		Type:        schema.TypeMap,
 		Description: "A description of the source’s configuration state.",
 		Computed:    true,
 		Required:    false,
@@ -114,17 +114,11 @@ func source() *schema.Resource {
 	}
 }
 
-// List of types (eg platform.mysql, platform.facebook) GET /v4/source-types
-// Get type details (eg platform.jira) GET /v4/source-types/{source_type}
-
 // Create POST /v4/sources
 func sourceCreate(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
 
-	c := Client{
-		HTTPClient: &http.Client{Timeout: 10 * time.Second},
-		HostURL:    HostURL,
-	}
+	c := m.(*Client)
 
 	url := fmt.Sprintf("%s/v4/sources", c.HostURL)
 
@@ -142,6 +136,7 @@ func sourceCreate(ctx context.Context, r *schema.ResourceData, m interface{}) di
 	body, _ := json.Marshal(configuration)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(body))
 	if err != nil {
+		// Provide useful visibility if it fails to form a request object
 		d = append(d, diag.Diagnostic{
 			Severity: diag.Warning,
 			Summary:  "Message Body",
@@ -164,14 +159,26 @@ func sourceCreate(ctx context.Context, r *schema.ResourceData, m interface{}) di
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	//defer response.Body.Close()
 
-	payload := make([]map[string]interface{}, 0)
+	payload := make(map[string]interface{}, 1)
 	err = json.Unmarshal(response, &payload)
 	if err != nil {
-		return diag.FromErr(err)
+		d = append(d, diag.Diagnostic{
+			Severity: diag.Warning,
+			Summary:  "Failed to parse JSON response.",
+			Detail:   string(response),
+		})
+		d = append(d, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to process JSON response",
+			Detail:   err.Error(),
+		})
+		return d
 	}
-	// Do stuff in here
+
+	uniqueId := fmt.Sprintf("%.0f", payload["id"])
+	r.SetId(uniqueId)
+
 	return d
 }
 
@@ -180,14 +187,11 @@ func sourceCreate(ctx context.Context, r *schema.ResourceData, m interface{}) di
 //		UnPause PUT /v4/sources/{source_id}
 func sourceUpdate(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
-	// Do stuff in here
-	return d
-}
-
-// List all GET /v4/sources
-func sourceGetList(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
-	var d diag.Diagnostics
-	// Do stuff in here
+	d = append(d, diag.Diagnostic{
+		Severity: diag.Warning,
+		Summary:  "Not implemented.",
+		Detail:   "The function sourceUpdate() in the stitch provider plugin has not been implemented",
+	})
 	return d
 }
 
@@ -195,17 +199,80 @@ func sourceGetList(ctx context.Context, r *schema.ResourceData, m interface{}) d
 func sourceGetDetails(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
 
-	// Do stuff in here
+	d = append(d, diag.Diagnostic{
+		Severity: diag.Warning,
+		Summary:  "Not implemented.",
+		Detail:   "The function sourceGetDetails() in the stitch provider plugin has not been implemented",
+	})
+
 	return d
 }
 
-// Delete DELETE /v4/sources/{source_id}
+// Delete a source /v4/sources/{source_id}
 func sourceDelete(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
-	// Do stuff in here
+	c := m.(*Client)
+
+	url := fmt.Sprintf("%s/v4/sources/%s", c.HostURL, r.Id())
+
+	req, err := http.NewRequest("DELETE", url, nil)
+	if err != nil {
+		d = append(d, diag.Diagnostic{
+			Severity: diag.Warning,
+			Summary:  "Target URL",
+			Detail:   url,
+		})
+		d = append(d, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to execute request",
+			Detail:   err.Error(),
+		})
+		return d
+	}
+
+	_, err = c.doRequest(req)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
 	return d
 }
 
+// List all GET /v4/sources
+// 		Lists the sources for an account, including active, paused, and deleted sources
+
+// For Sources that use access tokens, implement:
 // Create Access Token for Source POST /v4/sources/{source_id}/tokens
 // Get Access Token for Source GET /v4/sources/{source_id}/tokens
 // Delete Access Token for Source DELETE /v4/sources/{source_id}/tokens/{token_id}
+
+// To map attributes to source types, use these API's eg:
+//	{
+//	"type": "platform.mysql",
+//	"current_step": 1,
+//	"current_step_type": "form",
+//	"steps": [
+//	{
+//	"type": "form",
+//	"properties": [
+//	{
+//	"name": "allow_non_auto_increment_pks",
+//	"is_required": false,
+//	"is_credential": false,
+//	"system_provided": false,
+//	"property_type": "user_provided",
+//	"json_schema": {
+//	"type": "string",
+//	"pattern": "^(true|false)$"
+//	},
+//	"provided": false,
+//	"tap_mutable": false
+//	},
+//	{
+//	"name": "anchor_time",
+//	"is_required": false,
+//	"is_credential": false,
+//	"system_provided": false,
+//	"property_type": "user_provided",
+// List of types (eg platform.mysql, platform.facebook) GET /v4/source-types
+// Get type details (eg platform.jira) GET /v4/source-types/{source_type}

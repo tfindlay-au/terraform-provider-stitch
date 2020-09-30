@@ -4,6 +4,17 @@
 This code base provides link between Hashicorp's Terraform tools and the Stitch Data API.
 
 ### Using
+Before you begin you will need to create an account at StitchData (https://www.stitchdata.com/)
+
+Once you have an account you will need to purchase an enterprise plan to access Stitch Connect (API Access)
+https://www.stitchdata.com/docs/developers/stitch-connect
+
+You will then be able to login and goto your account settings and under `API access keys` generate a key to be used
+with this plugin in terraform.
+
+*NOTE*: Without "enterprise" access you will only have access to very limited Import API found here:
+https://www.stitchdata.com/docs/developers
+
 Using the plugin with in your terraform scripts should look like:
 
 ```hcl-terraform
@@ -15,7 +26,6 @@ terraform {
     }
   }
 }
-
 
 provider "stitch" {
   api_key = "<My API Key>"
@@ -42,7 +52,6 @@ resource "stitch_job" "transfer_job" {
   comment                     = "Sample Storage via Terraform"
   data_retention_time_in_days = 3
 }
-
 ```
 
 ### Building
@@ -60,9 +69,10 @@ This will produce a binary file that can be placed in your terraform plugins fol
 cd terraform
 rm -Rf .terraform
 terraform init
-terraform plan
+terraform apply --auto-approve
 cd ..
 ```
+
 ### Installing
 
 #### Manually
@@ -85,4 +95,4 @@ For example, consider the following path to install on OSx (Mac)
 
 #### Automatically
 
-// TODO Create makefile
+`TODO` Create makefile

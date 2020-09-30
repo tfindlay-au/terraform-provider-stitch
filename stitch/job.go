@@ -37,20 +37,32 @@ func job() *schema.Resource {
 // Start a job POST /v4/sources/{source_id}/sync
 func startJob(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
-	// Do stuff in here...
+	d = append(d, diag.Diagnostic{
+		Severity: diag.Warning,
+		Summary:  "Not implemented.",
+		Detail:   "The function startJob() in the stitch provider plugin has not been implemented",
+	})
 	return d
 }
 
 // Stop a job DELETE /v4/sources/{source_id}/sync
 func stopJob(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
-	// Do stuff in here...
+	d = append(d, diag.Diagnostic{
+		Severity: diag.Warning,
+		Summary:  "Not implemented.",
+		Detail:   "The function stopJob() in the stitch provider plugin has not been implemented",
+	})
 	return d
 }
 
 // List jobs ???
 func listJobs(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
-	// Do stuff in here...
+	d = append(d, diag.Diagnostic{
+		Severity: diag.Warning,
+		Summary:  "Not implemented.",
+		Detail:   "The function listJobs() in the stitch provider plugin has not been implemented",
+	})
 	return d
 }

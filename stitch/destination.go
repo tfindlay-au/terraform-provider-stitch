@@ -124,20 +124,43 @@ func destinationCreate(ctx context.Context, r *schema.ResourceData, m interface{
 // Update PUT /v4/destinations/{destination_id}
 func destinationUpdate(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
-	// Do stuff in here...
+	d = append(d, diag.Diagnostic{
+		Severity: diag.Warning,
+		Summary:  "Not implemented.",
+		Detail:   "The function destinationUpdate() in the stitch provider plugin has not been implemented",
+	})
 	return d
 }
 
 // List GET /v4/destinations
 func destinationList(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
-	// Do stuff in here...
+	d = append(d, diag.Diagnostic{
+		Severity: diag.Warning,
+		Summary:  "Not implemented.",
+		Detail:   "The function destinationUpdate() in the stitch provider plugin has not been implemented",
+	})
 	return d
 }
 
 // Delete DELETE /v4/destinations/{destination_id}
 func destinationDelete(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
-	// Do stuff in here...
+
+	c := Client{
+		HTTPClient: &http.Client{Timeout: 10 * time.Second},
+		HostURL:    HostURL,
+	}
+
+	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/v4/destinations/{destination_id}", c.HostURL), nil)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	_, err = c.doRequest(req)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
 	return d
 }
