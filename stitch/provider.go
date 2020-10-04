@@ -46,6 +46,13 @@ func providerConfigure(ctx context.Context, rd *schema.ResourceData) (interface{
 			return nil, d
 		}
 
+		// Success, log something useful anyway.
+		d = append(d, diag.Diagnostic{
+			Severity: diag.Warning,
+			Summary:  "Stitch Session Token from " + c.HostURL,
+			Detail:   c.Token,
+		})
+
 		return c, d
 	} else {
 		d = append(d, diag.Diagnostic{
