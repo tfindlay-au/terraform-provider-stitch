@@ -35,9 +35,9 @@ resource "stitch_source" "source_database" {
   display_name = "test_database"
   type = "<sourceType>"
   properties = {
-    host     = "myHost",
-    port     = 1234,
-    user     = "myUsername",
+    host     = "myHost"
+    port     = 1234
+    user     = "myUsername"
     password = "myPassword"
   }
 }
@@ -66,9 +66,6 @@ This will produce a binary file that can be placed in your terraform plugins fol
 
 ### Testing
 ```shell
-go build -o terraform-provider-stitch_v0.1.0
-mv terraform-provider-stitch_v0.1.0 ~/.terraform.d/plugins/stitchdata.com/provider/stitch/0.1.0/darwin_amd64/terraform-provider-stitch_v0.1.0
-rm -Rf ~/.terraform.d/plugin-cache/stitchdata.com
 cd terraform
 rm -Rf .terraform terraform.tfstate terraform.tfstate.backup
 terraform init

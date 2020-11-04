@@ -119,12 +119,12 @@ func sourceCreate(ctx context.Context, r *schema.ResourceData, m interface{}) di
 
 	// Use the configuration provided in Terraform to make the body of the request.
 	// TODO Fix manual mapping because json.Marshal(*schema.ResourceData) returns empty object
-	bullshit := map[string]interface{}{
+	stitchApiPayload := map[string]interface{}{
 		"display_name": r.Get("display_name"),
 		"type":         r.Get("type"),
 		"properties":   r.Get("properties"),
 	}
-	body, err := json.Marshal(bullshit)
+	body, err := json.Marshal(stitchApiPayload)
 	if err != nil {
 		return append(d, diag.FromErr(err)...)
 	}
@@ -138,17 +138,18 @@ func sourceCreate(ctx context.Context, r *schema.ResourceData, m interface{}) di
 		})
 	}
 
-	d = append(d, diag.Diagnostic{
-		Severity: diag.Warning,
-		Summary:  "Direct Access",
-		Detail:   r.Get("display_name").(string),
-	})
-
-	d = append(d, diag.Diagnostic{
-		Severity: diag.Warning,
-		Summary:  "Message Body",
-		Detail:   string(body),
-	})
+	// Validate configuration against supported properties for the given type
+	expected, err := getSourceTypeDetails(r.Get("type").(string), c)
+	if err != nil {
+		return append(d, diag.FromErr(err)...)
+	}
+	if !expected.SourceTypeValidator(string(body)) {
+		return append(d, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Configuration Mismatch",
+			Detail:   "Supplied options in terraform do not match required options for Stitch Data API",
+		})
+	}
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(body))
 	if err != nil {
