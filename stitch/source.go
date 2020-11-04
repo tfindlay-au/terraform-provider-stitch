@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"net/http"
+	stitchApi "terraform-provider-stitch/stitch/model"
 )
 
 // PURPOSE:
@@ -16,12 +17,6 @@ import (
 // Stitch replicates data from. Sources can be retrieved in a list or individually by ID.
 // Schema Reference: https://www.stitchdata.com/docs/developers/stitch-connect/api#source--object
 var sourceSchema = map[string]*schema.Schema{
-	"source_id": {
-		Type:        schema.TypeInt,
-		Description: "A unique identifier for this destination.",
-		Computed:    true,
-		Required:    false,
-	},
 	"properties": {
 		Type:        schema.TypeMap,
 		Description: "Parameters for connecting to the source, excluding any sensitive credentials. The parameters must adhere to the type of source.",
@@ -118,22 +113,43 @@ func source() *schema.Resource {
 func sourceCreate(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
 
+	// Use the client used to authenticate and populate the session token
 	c := m.(*Client)
-
 	url := fmt.Sprintf("%s/v4/sources", c.HostURL)
 
-	// TODO map this to the schema structure
-	configuration := map[string]interface{}{
-		"display_name": r.Get("display_name").(string),
-		"type":         r.Get("type").(string),
-		"properties": map[string]interface{}{
-			"host":     r.Get("properties.host").(string),
-			"port":     r.Get("properties.port").(string),
-			"user":     r.Get("properties.user").(string),
-			"password": r.Get("properties.password").(string),
-		},
+	// Use the configuration provided in Terraform to make the body of the request.
+	// TODO Fix manual mapping because json.Marshal(*schema.ResourceData) returns empty object
+	bullshit := map[string]interface{}{
+		"display_name": r.Get("display_name"),
+		"type":         r.Get("type"),
+		"properties":   r.Get("properties"),
 	}
-	body, _ := json.Marshal(configuration)
+	body, err := json.Marshal(bullshit)
+	if err != nil {
+		return append(d, diag.FromErr(err)...)
+	}
+
+	isValid := json.Valid(body)
+	if !isValid {
+		return append(d, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Marshalling",
+			Detail:   "Invalid conversion!",
+		})
+	}
+
+	d = append(d, diag.Diagnostic{
+		Severity: diag.Warning,
+		Summary:  "Direct Access",
+		Detail:   r.Get("display_name").(string),
+	})
+
+	d = append(d, diag.Diagnostic{
+		Severity: diag.Warning,
+		Summary:  "Message Body",
+		Detail:   string(body),
+	})
+
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(body))
 	if err != nil {
 		// Provide useful visibility if it fails to form a request object
@@ -155,11 +171,13 @@ func sourceCreate(ctx context.Context, r *schema.ResourceData, m interface{}) di
 		return d
 	}
 
+	// Execute the request against the StitchData API endpoint
 	response, err := c.doRequest(req)
 	if err != nil {
-		return diag.FromErr(err)
+		return append(d, diag.FromErr(err)...)
 	}
 
+	// Unpack the JSON response into a map
 	payload := make(map[string]interface{}, 1)
 	err = json.Unmarshal(response, &payload)
 	if err != nil {
@@ -176,6 +194,7 @@ func sourceCreate(ctx context.Context, r *schema.ResourceData, m interface{}) di
 		return d
 	}
 
+	// Store the unique identifier so we can reference it later on.
 	uniqueId := fmt.Sprintf("%.0f", payload["id"])
 	r.SetId(uniqueId)
 
@@ -212,7 +231,6 @@ func sourceGetDetails(ctx context.Context, r *schema.ResourceData, m interface{}
 func sourceDelete(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var d diag.Diagnostics
 	c := m.(*Client)
-
 	url := fmt.Sprintf("%s/v4/sources/%s", c.HostURL, r.Id())
 
 	req, err := http.NewRequest("DELETE", url, nil)
@@ -246,33 +264,25 @@ func sourceDelete(ctx context.Context, r *schema.ResourceData, m interface{}) di
 // Get Access Token for Source GET /v4/sources/{source_id}/tokens
 // Delete Access Token for Source DELETE /v4/sources/{source_id}/tokens/{token_id}
 
-// To map attributes to source types, use these API's eg:
-//	{
-//	"type": "platform.mysql",
-//	"current_step": 1,
-//	"current_step_type": "form",
-//	"steps": [
-//	{
-//	"type": "form",
-//	"properties": [
-//	{
-//	"name": "allow_non_auto_increment_pks",
-//	"is_required": false,
-//	"is_credential": false,
-//	"system_provided": false,
-//	"property_type": "user_provided",
-//	"json_schema": {
-//	"type": "string",
-//	"pattern": "^(true|false)$"
-//	},
-//	"provided": false,
-//	"tap_mutable": false
-//	},
-//	{
-//	"name": "anchor_time",
-//	"is_required": false,
-//	"is_credential": false,
-//	"system_provided": false,
-//	"property_type": "user_provided",
-// List of types (eg platform.mysql, platform.facebook) GET /v4/source-types
 // Get type details (eg platform.jira) GET /v4/source-types/{source_type}
+func getSourceTypeDetails(sourceType string, c *Client) (*stitchApi.Platform, error) {
+	var p stitchApi.Platform
+	url := fmt.Sprintf("%s/v4/source-types/%s", c.HostURL, sourceType)
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := c.doRequest(req)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(response, &p)
+	if err != nil {
+		return nil, err
+	}
+
+	return &p, nil
+}

@@ -40,16 +40,15 @@ type Details struct {
 	Access                     bool   `json:"access"`
 }
 
-func (p Platform) sourceTypeValidator(r string) bool {
+func (p Platform) SourceTypeValidator(r string) bool {
 	// Given the requirements from stitch and a definition
 	// in Terraform, match the 2 files to see if we can continue
 
 	// For each step in the definition ...
-	for i, _ := range p.Steps {
+	for i := range p.Steps {
 
 		// For each Property ...
 		for _, v := range p.Steps[i].Properties {
-			// TODO Check if the field exists - the terraform config might have extra fields
 
 			// If its required by StitchData
 			if v.IsRequired {
@@ -65,7 +64,10 @@ func propertyExists(input *string, fieldName *string) bool {
 	// it comes from the terraform configuration file
 	var parsedInput map[string]interface{}
 
-	json.Unmarshal([]byte(*input), &parsedInput)
+	err := json.Unmarshal([]byte(*input), &parsedInput)
+	if err != nil {
+		return false
+	}
 
 	// For each element int to top of the tree...
 	for k, v := range parsedInput {
