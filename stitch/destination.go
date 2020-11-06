@@ -13,6 +13,7 @@ import (
 // PURPOSE:
 // The Destination object represents a destination. Destinations are the data warehouses into which Stitch writes data
 // The Destination Type object contains the information needed to configure a destination.
+// Schema Reference here: https://www.stitchdata.com/docs/developers/stitch-connect/api#destinations
 var destinationSchema = map[string]*schema.Schema{
 	"destination_id": {
 		Type:        schema.TypeInt,
@@ -87,9 +88,6 @@ func destination() *schema.Resource {
 		SchemaVersion: 4,
 	}
 }
-
-// List of types (eg s3, snowflake) GET /v4/destination-types
-// Get type details (eg Redshift) GET /v4/destination-types/{destination_type}
 
 // Create POST /v4/destinations
 func destinationCreate(ctx context.Context, r *schema.ResourceData, m interface{}) diag.Diagnostics {

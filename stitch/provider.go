@@ -20,9 +20,9 @@ func Provider() *schema.Provider {
 	return &schema.Provider{
 		Schema: providerSchema,
 		ResourcesMap: map[string]*schema.Resource{
-			"stitch_destinations": destination(),
-			"stitch_source":       source(),
-			"stitch_job":          job(),
+			"stitch_destination": destination(),
+			"stitch_source":      source(),
+			"stitch_job":         job(),
 		},
 		DataSourcesMap:       map[string]*schema.Resource{},
 		ConfigureContextFunc: providerConfigure,

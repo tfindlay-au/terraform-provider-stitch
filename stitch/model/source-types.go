@@ -52,7 +52,7 @@ func (p Platform) SourceTypeValidator(r string) bool {
 
 			// If its required by StitchData
 			if v.IsRequired {
-				propertyExists(&r, &v.Name)
+				//propertyExists(&r, &v.Name)
 			}
 		}
 	}

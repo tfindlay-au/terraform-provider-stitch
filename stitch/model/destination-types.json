@@ -1,0 +1,1259 @@
+[
+  {
+    "type": "azure_sqldw",
+    "current_step": 1,
+    "current_step_type": "form",
+    "steps": [
+      {
+        "type": "form",
+        "properties": [
+          {
+            "name": "host",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "port",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "provided": false
+          },
+          {
+            "name": "username",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "password",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "azure_storage_account_token",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "azure_storage_sas_url",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "provided": false
+          },
+          {
+            "name": "database",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_type",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^(ssh|none)$"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_host",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_port",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_username",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "fully_configured",
+        "properties": []
+      }
+    ],
+    "details": {
+      "pricing_tier": "standard",
+      "pipeline_state": "beta",
+      "protocol": "azure_sqldw",
+      "access": true
+    }
+  },
+  {
+    "type": "redshift",
+    "current_step": 1,
+    "current_step_type": "form",
+    "steps": [
+      {
+        "type": "form",
+        "properties": [
+          {
+            "name": "database",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_host",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_port",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_type",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^(ssh|none)$"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_username",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "host",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "password",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "port",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "provided": false
+          },
+          {
+            "name": "username",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "fully_configured",
+        "properties": []
+      }
+    ],
+    "details": {
+      "pricing_tier": "standard",
+      "pipeline_state": "released",
+      "protocol": "redshift",
+      "access": true
+    }
+  },
+  {
+    "type": "postgres",
+    "current_step": 1,
+    "current_step_type": "form",
+    "steps": [
+      {
+        "type": "form",
+        "properties": [
+          {
+            "name": "database",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_host",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_port",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_type",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^(ssh|none)$"
+            },
+            "provided": false
+          },
+          {
+            "name": "encryption_username",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "host",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "password",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "port",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "provided": false
+          },
+          {
+            "name": "ssl",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^(true|false)$"
+            },
+            "provided": false
+          },
+          {
+            "name": "sslrootcert",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "username",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "fully_configured",
+        "properties": []
+      }
+    ],
+    "details": {
+      "pricing_tier": "standard",
+      "pipeline_state": "released",
+      "protocol": "postgres",
+      "access": true
+    }
+  },
+  {
+    "type": "snowflake",
+    "current_step": 1,
+    "current_step_type": "form",
+    "steps": [
+      {
+        "type": "form",
+        "properties": [
+          {
+            "name": "database",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "host",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "password",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "port",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "provided": false
+          },
+          {
+            "name": "role",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "username",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "warehouse",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "fully_configured",
+        "properties": []
+      }
+    ],
+    "details": {
+      "pricing_tier": "standard",
+      "pipeline_state": "released",
+      "protocol": "snowflake",
+      "access": true
+    }
+  },
+  {
+    "type": "s3",
+    "current_step": 1,
+    "current_step_type": "form",
+    "steps": [
+      {
+        "type": "form",
+        "properties": [
+          {
+            "name": "csv_delimiter",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "csv_force_quote",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^(true|false)$"
+            },
+            "provided": false
+          },
+          {
+            "name": "output_file_format",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^(csv|jsonl)$"
+            },
+            "provided": false
+          },
+          {
+            "name": "s3_bucket",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "s3_key_format_string",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "sentinel_key",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^stitch-challenge-file-.*$"
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "fully_configured",
+        "properties": []
+      }
+    ],
+    "details": {
+      "pricing_tier": "standard",
+      "pipeline_state": "released",
+      "protocol": "s3",
+      "access": true
+    }
+  },
+  {
+    "type": "storagegrid",
+    "current_step": 1,
+    "current_step_type": "form",
+    "steps": [
+      {
+        "type": "form",
+        "properties": [
+          {
+            "name": "access_key_id",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "csv_delimiter",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "csv_force_quote",
+            "is_required": false,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^(true|false)$"
+            },
+            "provided": false
+          },
+          {
+            "name": "endpoint",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "output_file_format",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^(csv|jsonl)$"
+            },
+            "provided": false
+          },
+          {
+            "name": "port",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "provided": false
+          },
+          {
+            "name": "s3_bucket",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "s3_key_format_string",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "secret_access_key",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "sentinel_key",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^stitch-challenge-file-.*$"
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "fully_configured",
+        "properties": []
+      }
+    ],
+    "details": {
+      "pricing_tier": "enterprise",
+      "pipeline_state": "alpha",
+      "protocol": "storagegrid",
+      "access": false
+    }
+  },
+  {
+    "type": "bigquery_v2",
+    "current_step": 1,
+    "current_step_type": "form",
+    "steps": [
+      {
+        "type": "form",
+        "properties": [
+          {
+            "name": "cloud_storage_location",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^EU$|^US$|^asia-east1$|^asia-east2$|^asia-northeast1$|^asia-northeast2$|^asia-south1$|^asia-southeast1$|^australia-southeast1$|^europe-north1$|^europe-west2$|^europe-west3$|^europe-west6$|^northamerica-northeast1$|^southamerica-east1$|^us-east4$|^us-west2$"
+            },
+            "provided": false
+          },
+          {
+            "name": "loading_mode",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided_immutable",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^(UPSERT|APPEND_ONLY)$"
+            },
+            "provided": false
+          },
+          {
+            "name": "project_id",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "read_only",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "service_account_credentials",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "object",
+              "required": [
+                "type",
+                "project_id",
+                "private_key",
+                "private_key_id",
+                "client_email",
+                "client_id",
+                "auth_uri",
+                "token_uri",
+                "auth_provider_x509_cert_url",
+                "client_x509_cert_url"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "token_uri": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "client_id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "auth_provider_x509_cert_url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "private_key_id": {
+                  "type": "string"
+                },
+                "client_email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "auth_uri": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "client_x509_cert_url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "project_id": {
+                  "type": "string"
+                },
+                "private_key": {
+                  "type": "string"
+                }
+              }
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "fully_configured",
+        "properties": []
+      }
+    ],
+    "details": {
+      "pricing_tier": "standard",
+      "pipeline_state": "released",
+      "protocol": "bigquery_v2",
+      "access": true
+    }
+  },
+  {
+    "type": "databricks_delta",
+    "current_step": 1,
+    "current_step_type": "form",
+    "steps": [
+      {
+        "type": "form",
+        "properties": [
+          {
+            "name": "access_token",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "jdbc_url",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^jdbc:spark://"
+            },
+            "provided": false
+          },
+          {
+            "name": "ssh_config",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "definitions": {
+                "ssh_encryption": {
+                  "type": "object",
+                  "properties": {
+                    "ssh": {
+                      "type": "string",
+                      "pattern": "^true$"
+                    },
+                    "ssh_host": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "ssh_port": {
+                      "type": "string",
+                      "pattern": "^\\d+$"
+                    },
+                    "ssh_user": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "ssh_host",
+                    "ssh_port",
+                    "ssh_user",
+                    "ssh"
+                  ]
+                },
+                "no_encryption": {
+                  "type": "object",
+                  "properties": {
+                    "ssh": {
+                      "type": "string",
+                      "pattern": "^false$"
+                    }
+                  },
+                  "required": [
+                    "ssh"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ssh_encryption"
+                },
+                {
+                  "$ref": "#/definitions/no_encryption"
+                }
+              ]
+            },
+            "provided": false
+          },
+          {
+            "name": "staging_area",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "definitions": {
+                "s3_staging_area": {
+                  "type": "object",
+                  "properties": {
+                    "scheme": {
+                      "type": "string",
+                      "pattern": "^s3$"
+                    },
+                    "bucket_name": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9.]$"
+                    }
+                  },
+                  "required": [
+                    "scheme",
+                    "bucket_name"
+                  ]
+                }
+              },
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/s3_staging_area"
+                }
+              ]
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "fully_configured",
+        "properties": []
+      }
+    ],
+    "details": {
+      "pricing_tier": "standard",
+      "pipeline_state": "beta",
+      "protocol": "databricks_delta",
+      "access": true
+    }
+  },
+  {
+    "type": "panoply",
+    "current_step": 1,
+    "current_step_type": "form",
+    "steps": [
+      {
+        "type": "form",
+        "properties": [
+          {
+            "name": "database",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "host",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "password",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "port",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "provided": false
+          },
+          {
+            "name": "username",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "fully_configured",
+        "properties": []
+      }
+    ],
+    "details": {
+      "pricing_tier": "standard",
+      "pipeline_state": "released",
+      "protocol": "redshift",
+      "access": true
+    }
+  },
+  {
+    "type": "dataworld",
+    "current_step": 1,
+    "current_step_type": "form",
+    "steps": [
+      {
+        "type": "form",
+        "properties": [
+          {
+            "name": "account_id",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "output_file_format",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^(csv|jsonl)$"
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "oauth",
+        "properties": [
+          {
+            "name": "access_token",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": true,
+            "property_type": "system_provided_by_default",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "s3_bucket",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": true,
+            "property_type": "system_provided_by_default",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "s3_key_format_string",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": true,
+            "property_type": "system_provided_by_default",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "fully_configured",
+        "properties": []
+      }
+    ],
+    "details": {
+      "pricing_tier": "standard",
+      "pipeline_state": "released",
+      "protocol": "s3",
+      "access": true
+    }
+  },
+  {
+    "type": "bigquery",
+    "current_step": 1,
+    "current_step_type": "form",
+    "steps": [
+      {
+        "type": "form",
+        "properties": [
+          {
+            "name": "dataset_location",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string",
+              "pattern": "^(US|EU|asia-northeast1|europe-west2|asia-southeast1|australian-southeast1)$"
+            },
+            "provided": false
+          },
+          {
+            "name": "project_id",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "project_name",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "user_provided",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "oauth",
+        "properties": [
+          {
+            "name": "access_token",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "system_provided_by_default",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "refresh_token",
+            "is_required": true,
+            "is_credential": true,
+            "system_provided": false,
+            "property_type": "system_provided_by_default",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          },
+          {
+            "name": "user_id",
+            "is_required": true,
+            "is_credential": false,
+            "system_provided": false,
+            "property_type": "system_provided_by_default",
+            "json_schema": {
+              "type": "string"
+            },
+            "provided": false
+          }
+        ]
+      },
+      {
+        "type": "fully_configured",
+        "properties": []
+      }
+    ],
+    "details": {
+      "pricing_tier": "standard",
+      "pipeline_state": "alpha",
+      "protocol": "bigquery",
+      "access": false
+    }
+  }
+]

@@ -13,4 +13,6 @@ rm -Rf .terraform terraform.tfstate terraform.tfstate.backup
 terraform init
 terraform plan
 terraform apply --auto-approve
+read -p 'Press [Enter] key to continue...'
+terraform destroy
 cd ..
